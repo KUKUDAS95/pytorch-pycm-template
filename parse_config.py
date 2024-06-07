@@ -101,8 +101,14 @@ class ConfigParser:
 
         # parse custom cli options into dictionary
         modification = {opt.target : getattr(args, _get_opt_name(opt.flags)) for opt in options}
-        return cls(config, resume, modification, run_id, args.test, args.core)
+        
+        # 원본코드
+        # return cls(config, resume, modification, run_id, args.test, args.core)
 
+        # 수정코드
+        return cls(config, resume, modification, run_id, args.test)
+
+        
     def init_obj(self, name, module, *args, **kwargs):
         """
         Finds a function handle with the name given as 'type' in config, and returns the
