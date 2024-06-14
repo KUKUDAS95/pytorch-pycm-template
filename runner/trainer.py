@@ -50,6 +50,10 @@ class Trainer(BaseTrainer):
         if self.cfg_da is not None:            
             if self.DA == 'cutmix': self.DA_ftns = module_DA.CutMix(writer=self.writer, **self.DAargs)
             
+            elif self.DA == 'mixup': self.DA_ftns = module_DA.MixUp(writer=self.writer, **self.DAargs)
+            
+            elif self.DA == 'classical_augmentation': self.DA_ftns = module_DA.Classical_Augmentation(writer=self.writer, **self.DAargs)
+            
         # Clear the gradients of all optimized variables 
         self.optimizer.zero_grad()
 
@@ -283,7 +287,17 @@ class Trainer(BaseTrainer):
             random_loss = self._loss(output, target[random_index], logit).item()
             lam = self.DA_ftns.lam()
             loss = loss*lam +  random_loss*(1.-lam)
+            
+        elif self.DA == 'mixup':
+            if self.DA_ftns.rand_index() is None: return loss
+            random_index = self.DA_ftns.rand_index()
+            if len(random_index) != len(target): raise ValueError('Target and the number of shuffled indexes do not match.')
+            random_loss = self._loss(output, target[random_index], logit).item()
+            lam = self.DA_ftns.lam()
+            loss = loss*lam +  random_loss*(1.-lam)
+            
         self.DA_ftns.reset()
+        
         return loss
     
     def _progress(self, batch_idx):

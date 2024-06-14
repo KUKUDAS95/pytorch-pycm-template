@@ -16,7 +16,11 @@ config/*
 experiment/*
 # Custom files
 *imagenet*.py
-
+model/confidence_interval_UNIT_TEST.ipynb
+model/ROC_Curve-Multiclass_UNIT_TEST.ipynb
+data_loader/DA/DA_UNIT_TEST.ipynb
+runfile/*.sh
+# IPython
 .ipynb_checkpoints
 */.ipynb_checkpoints/*
 

@@ -46,5 +46,3 @@ def precision_class(confusion_obj:pycmCM, classes=None):
 def AUC(confusion_obj:pycmCM, classes=None, positive_class_idx=None):
     if positive_class_idx is None: raise ValueError('AUC requires positive_class_idx.')
     return base_metric('AUC', confusion_obj, classes, positive_class_idx)
-
-                  

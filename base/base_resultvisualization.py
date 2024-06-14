@@ -87,14 +87,13 @@ class ResultVisualization:
                 metrics_None.update(metrics_sampling)
                 metrics_None.update(metrics_DA)
                 metrics_None.update(metrics_multi)
-        
                 for metrics_cate, metrics_path in metrics_None.items():
                     run_cate = '-'.join(metrics_cate.split('-')[:-1])
                     run_id = metrics_cate.split('-')[-1]
                     if run_cate not in metrics_dict[category][model].keys(): metrics_dict[category][model][run_cate] = {}
                     
                     # 훈련의 output을 가져온다.  
-                    train_json = sorted((metrics_path).glob('metrics*.json'))             
+                    train_json = sorted((metrics_path).glob('metrics*.json'))    
                     if len(train_json) == 0: train_json = sorted((metrics_path/'training').glob('metrics*.json'))
                     if len(train_json) != 1: raise ValueError('The JSON file containing the training results could not be found.')
                     else: train_json = train_json[-1]
@@ -109,7 +108,7 @@ class ResultVisualization:
                         latest = int(latest)
                     
                     # 테스트 정보를 모두 가져온다.
-                    test_json = sorted((metrics_path/'test').glob(f'**/*{self.test_dirname}*/*{self.test_filename}*.json'))                    
+                    test_json = sorted((metrics_path/'test').glob(f'**/*{self.test_dirname}*/*{self.test_filename}*.json'))   
                     if len(test_json) >= 1:
                         test_epochs = []
                         for t in test_json:
@@ -124,7 +123,6 @@ class ResultVisualization:
                             use_test_json[test_json[sort_index]] = test_epochs[sort_index]
                     else : raise ValueError('The JSON file containing the test results could not be found.')
                     metrics_dict[category][model][run_cate].update({run_id:{'train':train_json,'test':use_test_json, 'latest': latest}})
-        
         category_list = list(metrics_dict.keys())
         use_cate = category_list[0]
         print(f'Category list : {len(category_list)}cnt -> {category_list}')

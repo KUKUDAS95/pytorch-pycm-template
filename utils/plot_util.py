@@ -28,7 +28,9 @@ def plot_imshow(img, one_channel=False):
         
 def plot_classes_preds(images, labels, preds, probs, idx:int=5, one_channel:bool=False, return_plot:bool=False, show:bool=False):
     close_all_plots()
-    idx = idx if len(images) <= idx else len(images)
+    
+    idx = len(images) if len(images) <= idx else len(images)
+
     fig = plt.figure(figsize=(3*idx, 5))
     for i in np.arange(idx):
         ax = fig.add_subplot(1, idx, i+1, xticks=[], yticks=[])

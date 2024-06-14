@@ -768,6 +768,7 @@ class PatchMerging(nn.Module):
         x: B, H*W, C
         """
         B, L, C = x.shape
+                
         assert L == H * W, "input feature has wrong size"
 
         x = x.view(B, H, W, C)
@@ -785,7 +786,6 @@ class PatchMerging(nn.Module):
         x3 = x[:, 1::2, 1::2, :]  # [B, H/2, W/2, C]
         x = torch.cat([x0, x1, x2, x3], -1)  # [B, H/2, W/2, 4*C]
         x = x.view(B, -1, 4 * C)  # [B, H/2*W/2, 4*C]
-
         x = self.norm(x)
         x = self.reduction(x)  # [B, H/2*W/2, 2*C]
 
